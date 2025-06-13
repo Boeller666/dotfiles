@@ -30,26 +30,35 @@
 
     in {
     nixosConfigurations = {
-      nixos-vm = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        system = desktop-system;
-        pkgs = desktop-pkgs;
-        modules = [ 
-          
-          ./configuration.nix
-          # home-manager.nixosModules.home-manager {
-          #   home-manager.useGlobalPkgs = true;
-          #   home-manager.useUserPackages = true;
+      nixos-vm = let
+        username = "boeller";
+        specialArgs = {inherit inputs username;};
+      in
+        nixpkgs.lib.nixosSystem {
+          inherit specialArgs;
+          system = desktop-system;
+          pkgs = desktop-pkgs;
+          modules = [
+            ./configuration.nix
+            # ./modules/audio.nix
+            # ./modules/browser.nix
+            ./modules/home-manager.nix
+            # ./modules/password-manager.nix
+            ./modules/user-self.nix
+          ] ++ [ ./hardware-configuration/nixos-vm.nix ];
+        };
 
-          #   home-manager.users.boeller = {
-          #     home.stateVersion = "25.05";
-          #   };
-          # }
-          ./modules/home-manager.nix
-          ./modules/user-boeller.nix
-        ] ++ [ ./hardware-configuration/nixos-vm.nix ];
-      };
+      ReneGaLX-NB = let
+        username = "renega";
+        specialArgs = {inherit inputs username;};
+      in
+        nixpkgs.lib.nixosSystem {
+          inherit specialArgs;
+          system = desktop-system;
+          pkgs = desktop-pkgs;
+        };
+
     };
-  };	
+  };
 
 }

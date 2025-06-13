@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, username, ... }:
 {
   imports = [ inputs.home-manager.nixosModules.home-manager ];
 
@@ -8,6 +8,6 @@
     extraSpecialArgs = {
       inherit inputs;
     };
-    users.boeller.home.stateVersion = "25.05";
+    users.${username}.home.stateVersion = "25.05";
   };
 }

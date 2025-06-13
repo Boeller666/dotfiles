@@ -1,13 +1,10 @@
-{ ... }:
+{ username, ... }:
 {
 
-  users.users.boeller = {
+  users.users.${username} = {
     isNormalUser = true;
     description = "René Gärtner";
     extraGroups = [ "networkmanager" "wheel" ];
-    extraSpecialArgs = {
-      inherit inputs;
-    };
   };
 
   nix.settings.trusted-users = [ "@wheel" ];
